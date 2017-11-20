@@ -107,7 +107,7 @@ public class UsuarioService {
 						.setIssuedAt(new Date()).setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
 						.signWith(SignatureAlgorithm.HS512, key).compact();
 				log.info("#### generating token for a key : " + jwtToken + " - " + key);
-				return Response.ok("Usuario " + user + " autenticado com sucesso").header( AUTHORIZATION, "Bearer " + jwtToken).build();
+				return Response.ok("Usuario " + user + " autenticado com sucesso").header( AUTHORIZATION, jwtToken).build();
 			} else
 				return Response.serverError().entity(new String("Usuario ou senha invalidos")).build();
 			
