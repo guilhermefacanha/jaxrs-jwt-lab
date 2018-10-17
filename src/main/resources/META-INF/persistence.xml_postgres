@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="pu" transaction-type="JTA">
+		<jta-data-source>java:jboss/PostgresDS</jta-data-source>
+		<jar-file></jar-file>
+
+		<properties>
+			
+			<!-- JTA JPA PROPERTIES -->
+			<property name="hibernate.transaction.jta.platform"	value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+			<property name="wildfly.jpa.default-unit" value="true" />
+			
+			<!-- HIBERNATE SQL UPDATE PROPERTIES -->
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			
+			<!-- HIBERNATE CONNECTION PROPERTIES -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.connection.aggressive_release" value="true" />
+			<property name="hibernate.connection.release_mode" value="after_transaction" />
+			
+			<!-- HIBERNATE ENVERS PROPERTIES -->
+			<property name="org.hibernate.envers.default_schema" value="auditoria" />
+			<property name="org.hibernate.envers.versionsTableSuffix" value="_aud" />
+			<property name="org.hibernate.envers.revisionFieldName" value="rev" />
+			<property name="org.hibernate.envers.store_data_at_delete" value="true" />
+			
+		</properties>
+	</persistence-unit>
+
+</persistence>

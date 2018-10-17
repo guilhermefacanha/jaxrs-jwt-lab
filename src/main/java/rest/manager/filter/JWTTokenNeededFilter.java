@@ -15,7 +15,7 @@ import javax.ws.rs.ext.Provider;
 
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
-import rest.manager.binding.JWTTokenNeeded;
+import rest.manager.annotations.JWTTokenNeeded;
 import rest.util.KeyGenerator;
 
 /**

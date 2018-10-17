@@ -1,5 +1,7 @@
 package rest.service;
 
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
+
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -16,14 +18,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import static javax.ws.rs.core.HttpHeaders.*;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import rest.manager.binding.JWTTokenNeeded;
+import rest.manager.annotations.JWTTokenNeeded;
 import rest.util.KeyGenerator;
 
+@Api(value = "UsuarioService Endpoint")
 @Slf4j
 @Path(value = "/usuarios")
 public class UsuarioService {
@@ -64,7 +67,7 @@ public class UsuarioService {
 	public Response novoUsuario(@FormParam("user") String user) {
 		if (user == null || user.isEmpty())
 			return Response.serverError().entity(new String("campo obrigatorio - user")).build();
-		System.out.println("Novo usuário => ".concat(user));
+		System.out.println("Novo usuï¿½rio => ".concat(user));
 		lista.add(user);
 		return Response.ok("Usuario cadastrado com sucesso").build();
 	}
