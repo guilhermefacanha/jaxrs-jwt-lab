@@ -41,7 +41,7 @@ public class DbInitializationUtil {
 			
 			User user = User.builder()
 							.city(faker.gameOfThrones().city())
-							.email(firstName.toLowerCase()+"@mail.com")
+							.email(firstName.toLowerCase().replace(" ", ".")+"@gameofthrones.com")
 							.name(firstName)
 							.phone(faker.phoneNumber().phoneNumber())
 							.salary(getRandomSalary())

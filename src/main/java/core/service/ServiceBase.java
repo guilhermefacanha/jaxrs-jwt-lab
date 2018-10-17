@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,6 +22,7 @@ import core.service.entity.ParValor;
 import core.service.entity.ParametroPesquisa;
 import core.service.entity.RetornoNegocioException;
 import core.util.ModelUtils;
+import rest.entity.User;
 import rest.manager.annotations.JWTTokenNeeded;
 
 public abstract class ServiceBase<T extends EntityBase> implements Serializable {
@@ -42,7 +45,25 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 			return Response.ok(existe).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta existeObjetoPorAtributos").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder()
+					.erro("Erro ao realizar consulta existeObjetoPorAtributos").exception(e.getMessage()).build())
+					.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@GET
+	@Path("/{code}")
+	public Response getById(@PathParam("code") long id) {
+		try {
+			T obj = getBusiness().getObjeto(id); 
+			if (obj!=null)
+				return Response.ok(obj).build();
+			else
+				return Response.status(Response.Status.NOT_FOUND).entity("NOT FOUND").build();
+		} catch (Exception e) {
+			return Response.ok(RetornoNegocioException.builder()
+					.erro("Error trying to get object by Id").exception(e.getMessage()).build())
+					.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -61,7 +82,8 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 			return Response.ok(lista).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -81,10 +103,11 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 				entidade = getBusiness().getObjeto(id);
 			else
 				entidade = getBusiness().getObjetoPorAtributos(atributos);
-			
+
 			return Response.ok(entidade).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -117,7 +140,8 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 			return Response.ok(lista).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaTodos").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaTodos")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -130,7 +154,9 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 			getBusiness().salvar(entidade);
 			return Response.ok(entidade).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao salvar registro").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(
+					RetornoNegocioException.builder().erro("Erro ao salvar registro").exception(e.getMessage()).build())
+					.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -144,7 +170,8 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 			getBusiness().remover(entidade.getId());
 			return Response.ok("Registro " + id + " removido com sucesso").build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao remover registro").exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder().erro("Erro ao remover registro")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
