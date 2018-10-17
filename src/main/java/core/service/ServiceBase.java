@@ -158,7 +158,7 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/save")
-	public Response getListaTodos(T entidade) {
+	public Response save(T entidade) {
 		try {
 			getBusiness().salvar(entidade);
 			return Response.ok(entidade).build();

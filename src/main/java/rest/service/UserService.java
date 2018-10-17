@@ -8,13 +8,18 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import com.github.javafaker.Faker;
 
 import core.business.BusinessBase;
 import core.service.ServiceBase;
@@ -64,6 +69,21 @@ public class UserService extends ServiceBase<User> {
 		} else
 			return setError("Body incomplete", "", "Authentication");
 
+	}
+	
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/save")
+	@Override
+	public Response save(User entidade) {
+		Faker faker = new Faker();
+		entidade.setCity(faker.gameOfThrones().city());
+		String firstName = faker.name().firstName();
+		entidade.setName(firstName);
+		entidade.setEmail(firstName.trim().replace(" ", ".") + "@gameofthrones.com");
+		entidade.setPhone(faker.phoneNumber().cellPhone());
+		return super.save(entidade);
 	}
 
 	@Override
