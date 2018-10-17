@@ -6,7 +6,7 @@
 	<artifactId>restjwt</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
 	<name>restjwt</name>
-	<description>restjwt</description>
+	<description>restjwt eap wildfly version</description>
 	<packaging>war</packaging>
 
 	<properties>

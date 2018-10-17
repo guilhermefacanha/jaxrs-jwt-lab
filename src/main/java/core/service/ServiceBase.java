@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import core.business.BusinessBase;
 import core.entity.EntityBase;
+import core.service.entity.JsonReturn;
 import core.service.entity.ParValor;
 import core.service.entity.ParametroPesquisa;
 import core.service.entity.RetornoNegocioException;
@@ -53,11 +54,12 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 	@GET
 	@Path("/{code}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response getById(@PathParam("code") long id) {
 		try {
 			T obj = getBusiness().getObjeto(id);
 			if (obj != null)
-				return Response.ok(obj).build();
+				return Response.ok().entity(obj).build();
 			else
 				return Response.status(Response.Status.NOT_FOUND).entity("NOT FOUND").build();
 		} catch (Exception e) {
@@ -156,7 +158,7 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/save")
-	public Response getListaTodos(T entidade) {
+	public Response save(T entidade) {
 		try {
 			getBusiness().salvar(entidade);
 			return Response.ok(entidade).build();
@@ -175,7 +177,7 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 		try {
 			long id = entidade.getId();
 			getBusiness().remover(entidade.getId());
-			return Response.ok("Registro " + id + " removido com sucesso").build();
+			return Response.ok(JsonReturn.builder().message("Registro " + id + " removido com sucesso").build()).build();
 		} catch (Exception e) {
 			return Response.ok(RetornoNegocioException.builder().erro("Erro ao remover registro")
 					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
