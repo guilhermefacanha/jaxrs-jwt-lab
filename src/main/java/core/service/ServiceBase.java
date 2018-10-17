@@ -22,12 +22,12 @@ import core.service.entity.ParValor;
 import core.service.entity.ParametroPesquisa;
 import core.service.entity.RetornoNegocioException;
 import core.util.ModelUtils;
-import rest.entity.User;
 import rest.manager.annotations.JWTTokenNeeded;
 
 public abstract class ServiceBase<T extends EntityBase> implements Serializable {
 
 	private static final long serialVersionUID = -2109810374032274822L;
+	private final String erroGET = "get method not allowed";
 
 	public abstract BusinessBase<T> getBusiness();
 
@@ -55,15 +55,14 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 	@Path("/{code}")
 	public Response getById(@PathParam("code") long id) {
 		try {
-			T obj = getBusiness().getObjeto(id); 
-			if (obj!=null)
+			T obj = getBusiness().getObjeto(id);
+			if (obj != null)
 				return Response.ok(obj).build();
 			else
 				return Response.status(Response.Status.NOT_FOUND).entity("NOT FOUND").build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder()
-					.erro("Error trying to get object by Id").exception(e.getMessage()).build())
-					.status(Status.INTERNAL_SERVER_ERROR).build();
+			return Response.ok(RetornoNegocioException.builder().erro("Error trying to get object by Id")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -82,8 +81,7 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 			return Response.ok(lista).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos")
-					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return setError("Error getting objects", e.getMessage());
 		}
 	}
 
@@ -106,9 +104,18 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 			return Response.ok(entidade).build();
 		} catch (Exception e) {
-			return Response.ok(RetornoNegocioException.builder().erro("Erro ao realizar consulta getListaPorAtributos")
-					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+			return setError("Error getting objects", e.getMessage());
 		}
+	}
+
+	protected Response setError(String error, String ex, String tipo) {
+		return Response.ok(RetornoNegocioException.builder().erro(error).exception(ex).tipo(tipo).build())
+				.status(Status.INTERNAL_SERVER_ERROR).build();
+	}
+
+	protected Response setError(String error, String ex) {
+		return Response.ok(RetornoNegocioException.builder().erro(error).exception(ex).build())
+				.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 
 	private Long contemId(HashMap<String, Object> atributos) {
@@ -190,6 +197,11 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 			return pesquisa.getOrdenacao();
 
 		return null;
+	}
+
+	protected Response getError() {
+		return Response.ok(RetornoNegocioException.builder().erro(erroGET).exception(erroGET).build())
+				.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 
 }

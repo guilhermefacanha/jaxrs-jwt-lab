@@ -13,7 +13,6 @@ import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
 import rest.manager.filter.JWTTokenNeededFilter;
-import rest.service.UsuarioService;
 
 @ApplicationPath(value = "rest")
 public class RestManager extends Application {
@@ -39,7 +38,6 @@ public class RestManager extends Application {
 
 		Set<Class<?>> resources = new HashSet<>();
 		resources.addAll(services);
-		resources.add(UsuarioService.class);
 
 		// add filters
 		resources.add(JWTTokenNeededFilter.class);
