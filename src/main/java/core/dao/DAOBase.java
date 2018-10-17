@@ -6,10 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -21,20 +20,20 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
+import core.annotations.Transactional;
 import core.entity.EntityBase;
 import core.util.ModelUtils;
 
-@Stateless
 public class DAOBase<T extends EntityBase> implements Serializable {
 	private static final long serialVersionUID = 7392952886823572130L;
 
-	@PersistenceContext
+	@Inject
 	protected EntityManager manager;
 
 	protected Class<T> modelClass;
 
 	// Metodo responsavel por persistir um objeto no banco de dados
-
+	@Transactional
 	public void salvar(T objeto) throws Exception {
 		// Verificacao se eh um update, caso seja update usar o merge para
 		// conectar o objeto ao banco
@@ -48,7 +47,7 @@ public class DAOBase<T extends EntityBase> implements Serializable {
 	}
 
 	// Metodo responsavel por remover um objeto no banco de dados
-
+	@Transactional
 	public void remover(T objeto) throws Exception {
 		String classe = getClasseEntidade().getSimpleName();
 
@@ -60,7 +59,7 @@ public class DAOBase<T extends EntityBase> implements Serializable {
 		}
 
 	}
-
+	@Transactional
 	public void remover(Object id) throws Exception {
 		String classe = getClasseEntidade().getSimpleName();
 

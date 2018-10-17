@@ -5,18 +5,18 @@ import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.github.javafaker.Faker;
 
+import core.annotations.Eager;
 import lombok.extern.slf4j.Slf4j;
 import rest.entity.User;
 import rest.entity.business.UserBusiness;
 
-@Singleton
-@Startup
+@ApplicationScoped
+@Eager
 @Slf4j
 public class DbInitializationUtil {
 

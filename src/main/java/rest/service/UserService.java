@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import core.business.BusinessBase;
 import core.service.ServiceBase;
 import core.service.entity.JsonReturn;
-import core.service.entity.RetornoNegocioException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
