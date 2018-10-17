@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lab</groupId>
 	<artifactId>restjwt</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>restjwt</name>
-	<description>restjwt</description>
+	<description>restjwt tomcat version</description>
 	<packaging>war</packaging>
 
 	<properties>
