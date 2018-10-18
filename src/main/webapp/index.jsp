@@ -8,5 +8,8 @@
 </head>
 <body>
 Hello World, Rest Lab
+<br/>
+Server:
+<%=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath() %> 
 </body>
 </html>
