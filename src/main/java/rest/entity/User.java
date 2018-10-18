@@ -5,12 +5,15 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import core.entity.EntityBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import rest.manager.serializer.JsonDateSerializer;
 
 @Builder
 @AllArgsConstructor
@@ -26,6 +29,8 @@ public class User extends EntityBase{
 	private String email;
 	private String phone;
 	private String city;
+	
+	@JsonSerialize(using=JsonDateSerializer.class)
 	private Date birthDate;
 	private double salary;
 }

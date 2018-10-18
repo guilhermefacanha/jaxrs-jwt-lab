@@ -43,7 +43,7 @@ public class DbInitializationUtil {
 							.city(faker.gameOfThrones().city())
 							.email(firstName.toLowerCase().replace(" ", ".")+"@gameofthrones.com")
 							.name(firstName)
-							.phone(faker.phoneNumber().phoneNumber())
+							.phone(faker.phoneNumber().cellPhone())
 							.salary(getRandomSalary())
 							.birthDate(getRandomBirthDate())
 							.build();
@@ -56,7 +56,7 @@ public class DbInitializationUtil {
 		Random rand = new Random();
 		int nextIntDay = rand.nextInt(31) + 1;
 		int nextIntMonth = rand.nextInt(12) + 1;
-		int nextIntYear = 90 + rand.nextInt(10);
+		int nextIntYear = 1990 + rand.nextInt(10);
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(nextIntYear, nextIntMonth, nextIntDay);

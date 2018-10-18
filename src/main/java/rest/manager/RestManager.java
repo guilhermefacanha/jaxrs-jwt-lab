@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 import org.reflections.Reflections;
 
 import core.service.ServiceBase;
@@ -41,6 +42,7 @@ public class RestManager extends Application {
 
 		// add filters
 		resources.add(JWTTokenNeededFilter.class);
+		resources.add(CorsFilter.class);
 
 		// classes do swagger...
 		resources.add(ApiListingResource.class);
