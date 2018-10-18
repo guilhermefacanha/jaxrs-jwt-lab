@@ -12,16 +12,17 @@ import core.service.ServiceBase;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import rest.manager.filter.CORSFilter;
 import rest.manager.filter.JWTTokenNeededFilter;
 
 @ApplicationPath(value = "rest")
 public class RestManager extends Application {
+	
 	public RestManager() {
 		BeanConfig conf = new BeanConfig();
 		conf.setTitle("LAB REST API");
 		conf.setDescription("Api Rest for Lab Projects");
 		conf.setVersion("0.0.1");
-		conf.setHost("localhost:8080");
 		conf.setBasePath("/restjwt/rest");
 		conf.setSchemes(new String[] { "http" });
 		conf.setResourcePackage("rest.service");
@@ -41,6 +42,8 @@ public class RestManager extends Application {
 
 		// add filters
 		resources.add(JWTTokenNeededFilter.class);
+		resources.add(CORSFilter.class);
+		resources.add(JacksonConfig.class);
 
 		// classes do swagger...
 		resources.add(ApiListingResource.class);
