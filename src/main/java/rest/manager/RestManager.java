@@ -43,7 +43,6 @@ public class RestManager extends Application {
 		// add filters
 		resources.add(JWTTokenNeededFilter.class);
 		resources.add(CORSFilter.class);
-		resources.add(JacksonConfig.class);
 
 		// classes do swagger...
 		resources.add(ApiListingResource.class);
