@@ -13,6 +13,7 @@ import core.service.ServiceBase;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import rest.manager.filter.CORSFilter;
 import rest.manager.filter.JWTTokenNeededFilter;
 
 @ApplicationPath(value = "rest")
@@ -22,8 +23,7 @@ public class RestManager extends Application {
 		conf.setTitle("LAB REST API");
 		conf.setDescription("Api Rest for Lab Projects");
 		conf.setVersion("0.0.1");
-		conf.setHost("localhost:8080");
-		conf.setBasePath("/restjwt/rest");
+		conf.setBasePath("/restjwt");
 		conf.setSchemes(new String[] { "http" });
 		conf.setResourcePackage("rest.service");
 		conf.setScan(true);
@@ -42,11 +42,22 @@ public class RestManager extends Application {
 
 		// add filters
 		resources.add(JWTTokenNeededFilter.class);
-		resources.add(CorsFilter.class);
+		resources.add(CORSFilter.class);
 
 		// classes do swagger...
 		resources.add(ApiListingResource.class);
 		resources.add(SwaggerSerializers.class);
 		return resources;
 	}
+	
+	@Override
+    public Set<Object> getSingletons() {
+		Set<Object> singletons = new HashSet<Object>();
+		CorsFilter corsFilter = new CorsFilter();
+        corsFilter.getAllowedOrigins().add("*");
+        corsFilter.setAllowedMethods("OPTIONS, GET, POST, DELETE, PUT, PATCH");
+        singletons.add(corsFilter);
+        
+        return singletons;
+    }
 }

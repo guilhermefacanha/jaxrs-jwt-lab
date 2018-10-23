@@ -68,6 +68,22 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 		}
 	}
 
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAll() {
+		try {
+			List<T> listaTodos = getBusiness().getListaTodos();
+			if(ModelUtils.isListaValida(listaTodos))
+				return Response.ok().entity(listaTodos).build();
+			else
+				return Response.status(Response.Status.NOT_FOUND).entity("NOT FOUND").build();
+		} catch (Exception e) {
+			return Response.ok(RetornoNegocioException.builder().erro("Error trying to get object by Id")
+					.exception(e.getMessage()).build()).status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
