@@ -23,7 +23,7 @@ public class RestManager extends Application {
 		conf.setTitle("LAB REST API");
 		conf.setDescription("Api Rest for Lab Projects");
 		conf.setVersion("0.0.1");
-		conf.setBasePath("/restjwt");
+		conf.setBasePath("/restjwt/rest");
 		conf.setSchemes(new String[] { "http" });
 		conf.setResourcePackage("rest.service");
 		conf.setScan(true);

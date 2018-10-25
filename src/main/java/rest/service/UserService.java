@@ -5,7 +5,9 @@ import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -81,9 +83,28 @@ public class UserService extends ServiceBase<User> {
 		entidade.setCity(faker.gameOfThrones().city());
 		String firstName = faker.name().firstName();
 		entidade.setName(firstName);
-		entidade.setEmail(firstName.trim().replace(" ", ".") + "@gameofthrones.com");
+		entidade.setEmail(firstName.trim().toLowerCase().replace(" ", ".") + "@gameofthrones.com");
 		entidade.setPhone(faker.phoneNumber().cellPhone());
+		entidade.setBirthDate(getRandomBirthDate());
+		entidade.setSalary(getRandomSalary());
 		return super.save(entidade);
+	}
+	
+	private Date getRandomBirthDate() {
+		Random rand = new Random();
+		int nextIntDay = rand.nextInt(31) + 1;
+		int nextIntMonth = rand.nextInt(12) + 1;
+		int nextIntYear = 1990 + rand.nextInt(10);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(nextIntYear, nextIntMonth, nextIntDay);
+		
+		return cal.getTime();
+	}
+
+	private double getRandomSalary() {
+		Random rand = new Random(10000);
+		return rand.nextInt(72000);
 	}
 
 	@Override

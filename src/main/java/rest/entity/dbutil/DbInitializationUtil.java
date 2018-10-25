@@ -25,11 +25,27 @@ public class DbInitializationUtil {
 
 	@PostConstruct
 	public void iniatilizeDB() {
-		log.info("=========== Db Initialization===========");
+		boolean createUsers = false;
+		if(createUsers) {
+			log.info("=========== Db Initialization===========");
+			try {
+				createUsers();
+			} catch (Exception e) {
+				log.error("Error trying to save new users",e);
+			}
+		}
+		else {
+			log.info("=========== *********************************************************************** ===========");
+			log.info("=========== Db Initialization Disabled change DbInitializationUtil.java to enable it===========");
+			log.info("=========== *********************************************************************** ===========");
+			initiateContext();
+		}
+	}
+
+	private void initiateContext() {
 		try {
-			createUsers();
+			userBusiness.getObjeto(1);
 		} catch (Exception e) {
-			log.error("Error trying to save new users",e);
 		}
 	}
 

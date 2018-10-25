@@ -187,12 +187,10 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/delete")
-	public Response delete(T entidade) {
+	@Path("/delete/{code}")
+	public Response delete(@PathParam("code") long id) {
 		try {
-			long id = entidade.getId();
-			getBusiness().remover(entidade.getId());
+			getBusiness().remover(id);
 			return Response.ok(JsonReturn.builder().message("Registro " + id + " removido com sucesso").build()).build();
 		} catch (Exception e) {
 			return Response.ok(RetornoNegocioException.builder().erro("Erro ao remover registro")
