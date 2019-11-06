@@ -52,10 +52,11 @@ public abstract class ServiceBase<T extends EntityBase> implements Serializable 
 		}
 	}
 
+	@JWTTokenNeeded
 	@GET
 	@Path("/{code}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getById(@PathParam("code") long id) {
+	public Response getById(@PathParam("code") long id, @HeaderParam("Authorization") String auth) {
 		try {
 			T obj = getBusiness().getObjeto(id);
 			if (obj != null)
