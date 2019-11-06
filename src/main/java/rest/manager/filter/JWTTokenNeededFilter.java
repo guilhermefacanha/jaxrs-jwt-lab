@@ -50,7 +50,8 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
         // Check if the HTTP Authorization header is present and formatted correctly
         if (authorizationHeader == null || authorizationHeader.isEmpty()) {
             log.error("#### invalid authorizationHeader : " + authorizationHeader);
-            throw new NotAuthorizedException("Authorization header must be provided");
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Authorization header must be provided").build());
+            return;
         }
 
         // Extract the token from the HTTP Authorization header
