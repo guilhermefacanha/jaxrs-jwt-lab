@@ -6,6 +6,8 @@ import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -24,6 +26,7 @@ import com.github.javafaker.Faker;
 import core.business.BusinessBase;
 import core.service.ServiceBase;
 import core.service.entity.JsonReturn;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
@@ -58,7 +61,9 @@ public class UserService extends ServiceBase<User> {
 		if (user != null && !user.isEmpty() && pass != null && !pass.isEmpty()) {
 			if ("admin".equals(user) && "admin".equals(pass)) {
 				Key key = keyGenerator.generateKey();
-				String jwtToken = Jwts.builder().setSubject(user).setIssuer(uriInfo.getAbsolutePath().toString())
+				String jwtToken = Jwts.builder()
+						.setClaims(getCustomClaims())
+						.setSubject(user).setIssuer(uriInfo.getAbsolutePath().toString())
 						.setIssuedAt(new Date()).setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
 						.signWith(SignatureAlgorithm.HS512, key).compact();
 				log.info("#### generating token for a key : " + jwtToken + " - " + key);
@@ -71,6 +76,13 @@ public class UserService extends ServiceBase<User> {
 
 	}
 	
+	private Map<String, Object> getCustomClaims() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("profile", "admin_profile");
+		map.put("department", "HR");
+		return map;
+	}
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

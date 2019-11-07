@@ -13,6 +13,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import rest.manager.annotations.JWTTokenNeeded;
@@ -61,8 +62,12 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
             // Validate the token
             Key key = keyGenerator.generateKey();
-            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
-            log.info("#### valid token : " + token);
+            Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+			log.debug("ID: " + claims.getId());
+		    log.debug("Subject: " + claims.getSubject());
+		    log.debug("Issuer: " + claims.getIssuer());
+		    log.debug("Expiration: " + claims.getExpiration());
+			log.debug("#### valid token : " + token);
 
         } catch (Exception e) {
             log.error("#### invalid token : " + token);
